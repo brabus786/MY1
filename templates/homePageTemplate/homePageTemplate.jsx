@@ -1,28 +1,55 @@
 import React from 'react';
 import styles from './homePageTemplate.module.scss';
-import * as actionCreated from '../../store/actions/counter';
-import * as actionType from '../../store/actions/actionTypes';
-import { connect } from 'react-redux';
+import AddBooks from '../../components/addBooks/addBooks';
+import Book from '../../components/book/book';
+import BookDescription from '../../components/bookDescription/bookDescription';
 
-const homePageTemplate = (props) => {
-    console.log(actionType);
+
+const homePageTemplate = ({addBookButton, onclick, register, books, handelSelect, book, editBook, deleteBook }) => {
+
+
+    let bookComponent = null;
+    if(book){
+        bookComponent = (
+            <BookDescription 
+                id={book._id}
+                name={book.name}
+                author={book.author}
+                description={book.description}
+                price={book.price}
+                deleteBook={deleteBook}
+                editBook={editBook}
+            />
+        )
+    }
+    
+
     return (
-        <div className={styles.homePageTemplate}>
-            <button onClick={() => props.increment()}>+</button>
-            <span>{props.homePageTemplate.counter.count}</span>
-            <button onClick={() => props.decrement()}>-</button>
+        <div className={styles.books}>
+            <AddBooks
+                onclick={onclick}
+                register={register}
+                addBookButton={addBookButton}
+            />
+            { bookComponent }
+            <div className={styles.books__wrap}>
+                {
+                    books?.map((data,) => {
+                        return (
+                            <Book
+                                key={data._id}
+                                id={data._id}
+                                name={data.name}
+                                author={data.author}
+                                price={data.price}
+                                onclick={handelSelect}
+                            />
+                        )
+                    })
+                }
+            </div>
         </div>
     );
 };
 
-export default connect(
-    (state) => {
-        return { homePageTemplate: state }
-    },
-    (dispatch) =>{
-        return {
-            increment: () => dispatch({type:actionType.COUNTER_INCRIMENT}),
-            decrement: () => dispatch({type:actionType.COUNTER_DECRIMENT}),
-        }
-    }
-)(homePageTemplate);
+export default homePageTemplate;

@@ -1,7 +1,12 @@
-.homePageTemplate{
-    border:1px solid red;
+.books{
+    border:1px solid green;
 
-    span{
-        margin: 20px;
+    &__wrap{
+        border:1px solid green;
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr ;
+        column-gap: 30px;
+        row-gap: 30px;
     }
 }
